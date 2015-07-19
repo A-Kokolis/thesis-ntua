@@ -1,0 +1,26 @@
+# path to main.c program for voltage alterations. Needs the frequency devisor as a parameter
+freqChangeCommand='cpufreq-set -r -f %d'
+
+#
+freqProcCommand='python2.7 freqChange.py %f'
+# path to ckpTime files that indicated when a checkpoint was taken. Needs as a parameter the simulation step we are restarting from
+ckpTimeFile='/home/apostolis/Desktop/mpi_programs/dvfs_thread/ckpTime/%d.txt'
+
+#path to applicationRestartTimeFile which includes the restart time overhead of the application. (The time to restore its parameters)
+applicationRestartTimeFile='/home/apostolis/Desktop/mpi_programs/dvfs_thread/ckpTime/applicationRestartTime.txt'
+
+#path to ckptOverheadTimeFile which includes the time overhead to store a checkpoint
+ckptOverheadTimeFile='/home/apostolis/Desktop/mpi_programs/dvfs_thread/ckpTime/ckpTime.txt'
+
+#the default multiplier refers to the cpufrequency we wanted the app to run
+defaultMultiplier=1
+defaultFreq=800000
+
+#multiplierList depends on the default multiplier we select
+multiplierList=[1,1.19,1.44,1.65,1.92,2.17,2.37]
+
+#available frequencies list (check /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_frequencies for your available frequencies)
+freqList=[800000,1000000,1200000,1400000,1600000,1800000,2000000]
+
+
+

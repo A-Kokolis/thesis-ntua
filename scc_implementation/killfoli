@@ -1,0 +1,7 @@
+ext=`hostname`
+kill_list=/shared/apostolis/.kill_list.$ext
+ps | grep infoli | awk "{ print \$1 }" > $kill_list
+while read LINE; do
+kill -9 $LINE
+done < $kill_list
+rm $kill_list
