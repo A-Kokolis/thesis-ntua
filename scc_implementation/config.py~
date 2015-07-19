@@ -15,6 +15,10 @@ rccerun_path = '/shared/apostolis/brain/rccerun'
 killfoli_path = '../killfoli'
 
 # injector input files
+##here was benchmarkInjectorFile =sim_dump_location + 'injectors/benchmark.txt'
+infoliInjectorFile = sim_dump_location + 'injectors/infolijector.txt'
+coreFailureInjectorFile = sim_dump_location + 'injectors/corefailjector.txt'
+coreShutdownInjectorFile = sim_dump_location + 'injectors/coreshutjector.txt'
 processExitInjectorFile = sim_dump_location + 'injectors/procexitjector.txt'
 
 # True if running on a development environment rather than the SCC

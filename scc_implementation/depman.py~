@@ -11,7 +11,8 @@ from Queue import Queue
 from collections import deque
 from threading import Lock, Thread
 
-from scc_diagnostics import processExit
+from scc_diagnostics import processExit, coreReachability
+from infoli_diagnostics import infoliOutputDivergence
 from scc_countermeasures import countermeasure_enum
 from injectors import injectorManager
 
@@ -114,7 +115,14 @@ class depman(object):
         self.diagnostics = []
         if 'processExit' in diagnostics:
             self.diagnostics.append(processExit(self))
-
+#        if 'infoliOutputDivergence' in diagnostics:
+#            self.diagnostics.append(infoliOutputDivergence(self))
+#        if 'coreReachability' in diagnostics:
+#            self.diagnostics.append(coreReachability(self, 3))
+        if 'infoliOutputDivergence' not in diagnostics and use_SDC_checkpoint:
+            print "use_SDC_checkpoint is True but no SDC detection diagnostic is used."
+            loggin.warning("use_SDC_checkpoint is True but no SDC detection diagnostic is used.")
+            use_SDC_checkpoint = False
     	print(self.diagnostics)
         # Initialize the countermeasure procedure
         self.current_counter_proc = []
@@ -237,6 +245,12 @@ class depman(object):
             if core[0] != globalmax and core[1] != globalmax:
                 logging.warning("Checkpoint File %d does not contain simulation step %d", i, globalmax)
                 return False
+
+        #call(['rm','-rf',safe_location+'*'])
+        #call( ['mkdir', safe_location + str(globalmax)])
+        #for i in range(len(self.cores)):
+        #    call( ['cp', '-f', '--remove-destination', sim_dump_location + 'ckptFile%d.bin' %i, safe_location + str(globalmax)])
+        #    call( ['cp', '-f', '--remove-destination', sim_dump_location + 'InferiorOlive_Output%d.txt' %i, safe_location + str(globalmax)]) # Porting Option 1 format
 
         self.checkpoints.append(globalmax)
         print self.checkpoints

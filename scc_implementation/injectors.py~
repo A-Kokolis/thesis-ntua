@@ -102,5 +102,36 @@ class processExitInjector(injector):
         self.diagnostic.process_line(failine)
 
 
+class infoliInjector(injector):
+    ''' Injects an SDC of one bit flip on an infoli output file '''
+    filename = infoliInjectorFile
+
+    def inject(self):
+        reader = randrange(len(self.diagnostic.readers))
+        self.diagnostic.readers[reader].injectSDC()
+
+class coreShutdownInjector(injector):
+    filename = coreShutdownInjectorFile
+
+    def inject(self):
+        # shut down one core at random by pulling the release
+        core = randrange(len(self.diagnostic.manager.cores))
+        if devel:
+            ex = 'echo'
+        else:
+            ex = 'sccReset'
+        call( [ex , '-p', ' '.join(self.diagnostic.manager.cores[core][3:])])
+        #call( ['echo' , '-p', self.diagnostic.manager.cores[core][3:]])
+        self.diagnostic.fail()
 
 
+class coreFailureInjector(injector):
+    filename = coreFailureInjectorFile
+
+    def inject(self):
+        # consider one core as permanently failed
+        self.disabled = True
+        core = randrange(len(self.diagnostic.manager.cores))
+        core = self.diagnostic.manager.cores[core]
+        self.diagnostic.perm_unreachables.append(core)
+        self.diagnostic.fail()
